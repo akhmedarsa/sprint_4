@@ -1,5 +1,5 @@
 """
-ID 116477437
+ID 116498555
 Модуль для расчёта минимального количества платформ для перевозки роботов.
 
 Этот модуль включает функцию для вычисления минимального количества
@@ -31,20 +31,20 @@ def min_platforms(weights: list[int], limit: int) -> int:
     Возвращает:
     int: Минимальное количество платформ.
     """
-    # Сортируем список весов роботов
-    weights.sort()
+    # Создаем копию списка весов роботов и сортируем ее
+    sorted_weights = sorted(weights)
 
     # Инициализируем указатели и счётчик платформ
-    i, j = 0, len(weights) - 1
+    left_point, right_point = 0, len(sorted_weights) - 1
     platforms = 0
 
     # Используем два указателя для парного подхода
-    while i <= j:
+    while left_point <= right_point:
         # Если самый лёгкий и самый тяжёлый роботы могут быть перевезены вместе
-        if weights[i] + weights[j] <= limit:
-            i += 1
+        if sorted_weights[left_point] + sorted_weights[right_point] <= limit:
+            left_point += 1
         # В любом случае, перевезём самого тяжёлого робота
-        j -= 1
+        right_point -= 1
         # Увеличиваем счётчик платформ
         platforms += 1
 
@@ -54,5 +54,5 @@ def min_platforms(weights: list[int], limit: int) -> int:
 if __name__ == '__main__':
     weights_input = input()
     limit = int(input())
-    weights = list(map(int, weights_input.strip().split()))
+    weights = [int(weight) for weight in weights_input.strip().split()]
     print(min_platforms(weights, limit))
